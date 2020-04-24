@@ -53,38 +53,15 @@ stages:
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      displayName: 'Upload package'
-      artifact: drop
-
-- stage: Deploy
-  displayName: 'Deploy Web App'
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: DeploymentJob
-    pool:
-      vmImage: $(vmImageName)
-    environment: $(environmentName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '$(pythonVersion)'
-            displayName: 'Use Python version'
-
-          - task: AzureRmWebAppDeployment@4
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Microsoft Azure Sponsorship (b2c41e0c-ff7a-45e7-8c40-f53e8ea364af)'
-              appType: 'webAppLinux'
-              WebAppName: 'iris-azb-2020'
-              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'PYTHON|3.7'
-              StartupCommand: 'python app.py'
-          # Build your Python project and deploy it to Azure as a Linux Web App.
-          # Change python version to one thats appropriate for your application.
-          # https://docs.microsoft.com/azure/devops/pipelines/languages/python
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Microsoft Azure Sponsorship (b2c41e0c-ff7a-45e7-8c40-f53e8ea364af)'
+        appType: 'webAppLinux'
+        WebAppName: 'iris-azb-2020'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        RuntimeStack: 'PYTHON|3.7'
+        StartupCommand: 'python app.py'
+    # Build your Python project and deploy it to Azure as a Linux Web App.
+    # Change python version to one thats appropriate for your application.
+    # https://docs.microsoft.com/azure/devops/pipelines/languages/python
