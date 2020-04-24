@@ -27,3 +27,7 @@ def predict():
         "pred": pred.tolist(),
     }
     return response
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
