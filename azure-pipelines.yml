@@ -82,7 +82,8 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : iris-azb-2020'
             inputs:
+              appType: webAppLinux
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              startUpCommand: 'python app.py'
+              StartupCommand: 'python app.py'
