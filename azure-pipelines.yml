@@ -82,7 +82,7 @@ stages:
               azureSubscription: 'Microsoft Azure Sponsorship (b2c41e0c-ff7a-45e7-8c40-f53e8ea364af)'
               appType: 'webAppLinux'
               WebAppName: 'iris-azb-2020'
-              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'PYTHON|3.7'
               StartupCommand: 'python app.py'
           # Build your Python project and deploy it to Azure as a Linux Web App.
