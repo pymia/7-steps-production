@@ -1,0 +1,5 @@
+/.mypy_cache
+/.pytest_cache
+/.ipynb_checkpoints/*
+*.pyc
+*.DS_Store
